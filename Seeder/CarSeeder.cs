@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace EMGMSA.Seeder;
+using EMGMSA.Models;
 public class CarSeeder
 {
     private readonly ApplicationDbContext _context;
@@ -11,7 +12,11 @@ public class CarSeeder
     }
 
     public void SeedCars()
-    {
+    {   
+        if (_context.Cars.Any())
+        {
+            return; // Ne pas *seeder* si des données existent
+        }
         var cars = new List<Car>
         {
             new Car

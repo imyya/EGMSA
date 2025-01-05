@@ -1,10 +1,6 @@
 {
   "Files": [
     {
-      "Id": "/home/mya/Documents/EMGMSA/obj/Debug/net8.0/scopedcss/projectbundle/EMGMSA.bundle.scp.css",
-      "PackagePath": "staticwebassets/EMGMSA.bundle.scp.css"
-    },
-    {
       "Id": "/home/mya/Documents/EMGMSA/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },

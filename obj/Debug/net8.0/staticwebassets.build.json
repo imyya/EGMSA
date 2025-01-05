@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7RggyzCBJCsZhmJstWfR3x8PhQD3s39NG4z1gfGvRsA=",
+  "Hash": "cBoM3irXicVpWgob2R98G6wj+5EkAHjieaq4jQGyTSA=",
   "Source": "EMGMSA",
   "BasePath": "_content/EMGMSA",
   "Mode": "Default",
@@ -16,44 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "/home/mya/Documents/EMGMSA/obj/Debug/net8.0/scopedcss/bundle/EMGMSA.styles.css",
-      "SourceId": "EMGMSA",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/mya/Documents/EMGMSA/obj/Debug/net8.0/scopedcss/bundle/",
-      "BasePath": "_content/EMGMSA",
-      "RelativePath": "EMGMSA.styles.css",
-      "AssetKind": "All",
-      "AssetMode": "CurrentProject",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ApplicationBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/mya/Documents/EMGMSA/obj/Debug/net8.0/scopedcss/bundle/EMGMSA.styles.css"
-    },
-    {
-      "Identity": "/home/mya/Documents/EMGMSA/obj/Debug/net8.0/scopedcss/projectbundle/EMGMSA.bundle.scp.css",
-      "SourceId": "EMGMSA",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/mya/Documents/EMGMSA/obj/Debug/net8.0/scopedcss/projectbundle/",
-      "BasePath": "_content/EMGMSA",
-      "RelativePath": "EMGMSA.bundle.scp.css",
-      "AssetKind": "All",
-      "AssetMode": "Reference",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ProjectBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/mya/Documents/EMGMSA/obj/Debug/net8.0/scopedcss/projectbundle/EMGMSA.bundle.scp.css"
-    },
     {
       "Identity": "/home/mya/Documents/EMGMSA/wwwroot/css/site.css",
       "SourceId": "EMGMSA",

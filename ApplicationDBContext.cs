@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
+using EMGMSA.Models;
 
 public class ApplicationDbContext : IdentityDbContext<User>
 {

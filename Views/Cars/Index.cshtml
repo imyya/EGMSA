@@ -1,4 +1,4 @@
-@model IEnumerable<Car>
+@model IEnumerable<EMGMSA.Models.Car>
 @{
     Layout = "_Layout";
 }
@@ -28,11 +28,33 @@
                 <td>@(car.IsAvailable ? "Disponible" : "Non disponible")</td>
                 <td>
                     <a href="@Url.Action("Edit", "Cars", new { id = car.Id })" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="@Url.Action("Delete", "Cars", new { id = car.Id })" class="btn btn-danger btn-sm">Supprimer</a>
+                    <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="showDeleteModal(@car.Id)">Supprimer</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+<!--Modal-->
+
 <a href="@Url.Action("Create", "Cars")" class="btn btn-primary">Ajouter une voiture</a>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="deleteModalContent">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showDeleteModal(id) {
+            $.get('@Url.Action("Delete", "Cars")', { id: id }, function(data) {
+                $('#deleteModalContent').html(data);
+                $('#deleteModal').modal('show');
+            });
+        }
+    </script>
+}

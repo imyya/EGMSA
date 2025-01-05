@@ -3,7 +3,7 @@ namespace EMGMSA.Controllers;
 using Microsoft.EntityFrameworkCore;  // For EF Core extension methods like ToListAsync
 using System.Linq;  // Fo
 using EMGMSA.Seeder;
-
+using EMGMSA.Models;
 public class CarsController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -22,6 +22,7 @@ public class CarsController : Controller
     }
 
     // Ajouter une voiture
+    // [HttpGet]
     public IActionResult Create()
     {
         return View();
@@ -35,7 +36,21 @@ public class CarsController : Controller
         {
             _context.Add(car);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Cars");
+        }
+        else
+        {
+
+            foreach (var modelState in ViewData.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    System.Console.WriteLine(car);
+                }
+
+            }
+            Console.WriteLine($"Brand: {car.Brand}, Model: {car.Model}, Year: {car.Year}, Price: {car.Price}");
+
         }
         return View(car);
     }
@@ -91,6 +106,8 @@ public class CarsController : Controller
     // Supprimer une voiture
     public async Task<IActionResult> Delete(int? id)
     {
+        Console.WriteLine("Delete the in the first delete: " + id);
+
         if (id == null)
         {
             return NotFound();
@@ -103,17 +120,19 @@ public class CarsController : Controller
             return NotFound();
         }
 
-        return View(car);
+
+        return PartialView(car);
     }
 
-    [HttpPost, ActionName("Delete")]
+    [HttpPost, ActionName("DeleteConfirmed")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
+    public async Task<IActionResult> DeleteConfirmed(int? id)
+    {           Console.WriteLine("DeleteConfirmed the : " + id);
+
         var car = await _context.Cars.FindAsync(id);
         _context.Cars.Remove(car);
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index", "Cars"); ;
     }
 
     private bool CarExists(int id)

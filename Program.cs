@@ -21,6 +21,10 @@ builder.Services.AddIdentity<User, IdentityRole>()
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
+// Configure logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
 
 
 //on doit enregistrer le service CarSeeder dans le conteneur dinjection de
@@ -35,6 +39,14 @@ var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Request Path: {Path}", context.Request.Path);
+    logger.LogInformation("Request Method: {Method}", context.Request.Method);
+    await next.Invoke();
+});
 
 app.MapControllerRoute(
     name: "default",
