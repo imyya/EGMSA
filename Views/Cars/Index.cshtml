@@ -15,6 +15,8 @@
             <th>Modèle</th>
             <th>Prix</th>
             <th>Disponibilité</th>
+            <th>Description</th>
+            <th>Photo</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -26,9 +28,20 @@
                 <td>@car.Model</td>
                 <td>@car.Price</td>
                 <td>@(car.IsAvailable ? "Disponible" : "Non disponible")</td>
+                <td>@car.Description</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(car.PhotoUrl))
+                    {
+                        <img src="@car.PhotoUrl" alt="@car.Model" style="width: 100px;" />
+                    }
+
+                </td>
+
+
                 <td>
                     <a href="@Url.Action("Edit", "Cars", new { id = car.Id })" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="showDeleteModal(@car.Id)">Supprimer</a>
+                    <a href="javascript:void(0);" class="btn btn-danger btn-sm"
+                        onclick="showDeleteModal(@car.Id)">Supprimer</a>
                 </td>
             </tr>
         }
@@ -39,7 +52,8 @@
 
 <a href="@Url.Action("Create", "Cars")" class="btn btn-primary">Ajouter une voiture</a>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" id="deleteModalContent">
         </div>
@@ -51,7 +65,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function showDeleteModal(id) {
-            $.get('@Url.Action("Delete", "Cars")', { id: id }, function(data) {
+            $.get('@Url.Action("Delete", "Cars")', { id: id }, function (data) {
                 $('#deleteModalContent').html(data);
                 $('#deleteModal').modal('show');
             });

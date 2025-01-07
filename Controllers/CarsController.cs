@@ -30,10 +30,19 @@ public class CarsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Car car)
+    public async Task<IActionResult> Create(Car car, IFormFile photo)
     {
         if (ModelState.IsValid)
-        {
+        {   if(photo !=null && photo.Length > 0){
+            var fileName = Path.GetFileName(photo.FileName);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+            using(var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await photo.CopyToAsync(fileStream);
+            }
+            car.PhotoUrl = "/images/"+ fileName;
+        }
             _context.Add(car);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Cars");
@@ -49,7 +58,6 @@ public class CarsController : Controller
                 }
 
             }
-            Console.WriteLine($"Brand: {car.Brand}, Model: {car.Model}, Year: {car.Year}, Price: {car.Price}");
 
         }
         return View(car);
@@ -73,7 +81,7 @@ public class CarsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, Car car)
+    public async Task<IActionResult> Edit(int id, Car car, IFormFile Photo)
     {
         if (id != car.Id)
         {
@@ -81,7 +89,18 @@ public class CarsController : Controller
         }
 
         if (ModelState.IsValid)
-        {
+        {   
+            if(Photo !=null && Photo.Length > 0){
+                Console.WriteLine("Photo is not null");
+                var fileName = Path.GetFileName(Photo.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                using(var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Photo.CopyToAsync(fileStream);
+                }
+                car.PhotoUrl = "/images/"+ fileName;
+            }
             try
             {
                 _context.Update(car);
@@ -124,7 +143,7 @@ public class CarsController : Controller
         return PartialView(car);
     }
 
-    [HttpPost, ActionName("DeleteConfirmed")]
+    [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {           Console.WriteLine("DeleteConfirmed the : " + id);

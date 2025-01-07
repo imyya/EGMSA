@@ -9,6 +9,14 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/home/mya/Documents/EMGMSA/wwwroot/images/Screenshot from 2025-01-02 09-31-16.png",
+      "PackagePath": "staticwebassets/images/Screenshot from 2025-01-02 09-31-16.png"
+    },
+    {
+      "Id": "/home/mya/Documents/EMGMSA/wwwroot/images/Screenshot from 2025-01-05 14-20-34.png",
+      "PackagePath": "staticwebassets/images/Screenshot from 2025-01-05 14-20-34.png"
+    },
+    {
       "Id": "/home/mya/Documents/EMGMSA/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },

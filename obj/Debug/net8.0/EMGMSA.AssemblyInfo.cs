@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EMGMSA")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4bd8625cf2df05940b8adc11baa93081ac028c08")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+53608768855745249c4bae3e147d7cf6f9ee96c8")]
 [assembly: System.Reflection.AssemblyProductAttribute("EMGMSA")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EMGMSA")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,90 @@
+@model EMGMSA.Models.Car;
+@{
+    Layout = "_Layout";
+}
+@{
+    ViewData["Title"] = "Modifier une voiture";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Car</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+       <form action="/Cars/Edit" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label class="control-label p-3">Marque</label>
+                <select name="Brand" class="form-control">
+                    <option value="">-- Sélectionner une marque --</option>
+                    <option value="Toyota" @(Model.Brand == "Toyota" ? "selected" : "")>Toyota</option>
+                    <option value="Honda" @(Model.Brand == "Honda" ? "selected" : "")>Honda</option>
+                    <option value="BMW" @(Model.Brand == "BMW" ? "selected" : "")>BMW</option>
+                    <option value="Ford" @(Model.Brand == "Ford" ? "selected" : "")>Ford</option>
+                    <option value="Audi" @(Model.Brand == "Audi" ? "selected" : "")>Audi</option>
+                    <option value="Volkswagen" @(Model.Brand == "Volkswagen" ? "selected" : "")>Volkswagen</option>
+                    <option value="Mercedes" @(Model.Brand == "Mercedes" ? "selected" : "")>Mercedes</option>
+                    <option value="Peugeot" @(Model.Brand == "Peugeot" ? "selected" : "")>Peugeot</option>
+                    <option value="Renault" @(Model.Brand == "Renault" ? "selected" : "")>Renault</option>
+                    <option value="Nissan" @(Model.Brand == "Nissan" ? "selected" : "")>Nissan</option>
+                    <option value="Chevrolet" @(Model.Brand == "Chevrolet" ? "selected" : "")>Chevrolet</option>
+                </select>
+                <span class="text-danger">@ViewData.ModelState["Brand"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label p-3">Le modèle</label>
+                <input name="Model" class="form-control" value="@Model.Model" />
+                <span class="text-danger">@ViewData.ModelState["Model"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+          <div class="form-group">
+                <label class="control-label p-3">L'année</label>
+                <input name="Year" class="form-control" type="number" value="@Model.Year" />
+                <span class="text-danger">@ViewData.ModelState["Year"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label p-3">Prix</label>
+                <input name="Price" class="form-control" value="@Model.Price" />
+                <span class="text-danger">@ViewData.ModelState["Price"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label p-3">Description</label>
+                <textarea name="Description" class="form-control">@Model.Description</textarea>
+                <span class="text-danger">@ViewData.ModelState["Description"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label p-3">Disponible</label>
+                <select name="IsAvailable" class="form-control">
+                    <option value="true" @(Model.IsAvailable ? "selected" : "")>Oui</option>
+                    <option value="false" @(!Model.IsAvailable ? "selected" : "")>Non</option>
+                </select>
+                <span class="text-danger">@ViewData.ModelState["IsAvailable"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+            
+            <div class="form-group">
+                <label class="control-label p-3">Photo actuelle</label>
+                @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+                {
+                    <img src="@Model.PhotoUrl" alt="Photo de @Model.Brand @Model.Model" width="200" />
+                }
+            </div>
+
+            <div class="form-group">
+                <label  class="control-label p-3">Photo</label>
+                <input  type="file" name="Photo" class="form-control" />
+            </div>
+
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="form-group">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                <a href="/Cars/Index" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
