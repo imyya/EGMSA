@@ -30,19 +30,21 @@ public class CarsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Car car, IFormFile photo)
+    public async Task<IActionResult> Create(Car car, IFormFile Photo)
     {
         if (ModelState.IsValid)
-        {   if(photo !=null && photo.Length > 0){
-            var fileName = Path.GetFileName(photo.FileName);
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-
-            using(var fileStream = new FileStream(filePath, FileMode.Create))
+        {
+            if (Photo != null && Photo.Length > 0)
             {
-                await photo.CopyToAsync(fileStream);
+                var fileName = Path.GetFileName(Photo.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Photo.CopyToAsync(fileStream);
+                }
+                car.PhotoUrl = "/images/" + fileName;
             }
-            car.PhotoUrl = "/images/"+ fileName;
-        }
             _context.Add(car);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Cars");
@@ -72,35 +74,37 @@ public class CarsController : Controller
         }
 
         var car = await _context.Cars.FindAsync(id);
-        if (car == null)
-        {
-            return NotFound();
-        }
+
         return View(car);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, Car car, IFormFile Photo)
+    public async Task<IActionResult> Edit(int id, Car car, IFormFile? Photo)
     {
         if (id != car.Id)
         {
+            Console.WriteLine("Id is not equal to car.Id");
             return NotFound();
+
         }
 
         if (ModelState.IsValid)
-        {   
-            if(Photo !=null && Photo.Length > 0){
+        {
+            Console.WriteLine("Model is valid");
+            if (Photo != null && Photo.Length > 0)
+            {
                 Console.WriteLine("Photo is not null");
                 var fileName = Path.GetFileName(Photo.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
 
-                using(var fileStream = new FileStream(filePath, FileMode.Create))
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await Photo.CopyToAsync(fileStream);
                 }
-                car.PhotoUrl = "/images/"+ fileName;
+                car.PhotoUrl = "/images/" + fileName;
             }
+
             try
             {
                 _context.Update(car);
@@ -111,6 +115,7 @@ public class CarsController : Controller
                 if (!CarExists(car.Id))
                 {
                     return NotFound();
+
                 }
                 else
                 {
@@ -119,7 +124,21 @@ public class CarsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(car);
+
+        else
+        {
+            // Log validation errors
+            foreach (var modelState in ViewData.ModelState.Values)
+            {
+                Console.WriteLine("Model is not valid in edit");
+                foreach (var error in modelState.Errors)
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+            }
+        }
+        return RedirectToAction("Index", "Cars");
+
     }
 
     // Supprimer une voiture
@@ -146,7 +165,8 @@ public class CarsController : Controller
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
-    {           Console.WriteLine("DeleteConfirmed the : " + id);
+    {
+        Console.WriteLine("DeleteConfirmed the : " + id);
 
         var car = await _context.Cars.FindAsync(id);
         _context.Cars.Remove(car);

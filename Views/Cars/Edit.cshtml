@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-12">
-       <form action="/Cars/Edit" method="post">
+        <form action="/Cars/Edit" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label p-3">Marque</label>
@@ -39,7 +39,7 @@
                 <span class="text-danger">@ViewData.ModelState["Model"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
             </div>
 
-          <div class="form-group">
+            <div class="form-group">
                 <label class="control-label p-3">L'année</label>
                 <input name="Year" class="form-control" type="number" value="@Model.Year" />
                 <span class="text-danger">@ViewData.ModelState["Year"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
@@ -54,7 +54,8 @@
             <div class="form-group">
                 <label class="control-label p-3">Description</label>
                 <textarea name="Description" class="form-control">@Model.Description</textarea>
-                <span class="text-danger">@ViewData.ModelState["Description"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+                <span
+                    class="text-danger">@ViewData.ModelState["Description"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
             </div>
 
             <div class="form-group">
@@ -63,10 +64,14 @@
                     <option value="true" @(Model.IsAvailable ? "selected" : "")>Oui</option>
                     <option value="false" @(!Model.IsAvailable ? "selected" : "")>Non</option>
                 </select>
-                <span class="text-danger">@ViewData.ModelState["IsAvailable"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+                <span
+                    class="text-danger">@ViewData.ModelState["IsAvailable"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
             </div>
 
-            
+            <input type="hidden" name="PhotoUrl" id="" value="@Model.PhotoUrl" />
+
+
+
             <div class="form-group">
                 <label class="control-label p-3">Photo actuelle</label>
                 @if (!string.IsNullOrEmpty(Model.PhotoUrl))
@@ -76,8 +81,8 @@
             </div>
 
             <div class="form-group">
-                <label  class="control-label p-3">Photo</label>
-                <input  type="file" name="Photo" class="form-control" />
+                <label class="control-label p-3">Photo</label>
+                <input type="file" name="Photo" class="form-control" />
             </div>
 
             <input type="hidden" name="Id" value="@Model.Id" />
