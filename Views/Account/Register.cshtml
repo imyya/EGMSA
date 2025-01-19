@@ -1,0 +1,39 @@
+    @model EMGMSA.Models.RegisterViewModel;
+    @{
+        Layout = "_Layout";
+    }
+    <form action="/Account/Register" method="post" >
+        @Html.AntiForgeryToken()
+
+    <div class="form-group mb-4">
+            <label asp-for="">Prenom</label>
+            <input name="FirstName" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="">Nom</label>
+            <input name="LastName" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Email">Email</label>
+            <input name="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Password">Password</label>
+            <input name="Password" type="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="ConfirmPassword">Confirm Password</label>
+            <input name="ConfirmPassword" type="password" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+
+    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div class="text-danger">@error.ErrorMessage</div>
+        }

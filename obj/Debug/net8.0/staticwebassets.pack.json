@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets/images/Screenshot from 2025-01-05 14-20-34.png"
     },
     {
+      "Id": "/home/mya/Documents/EMGMSA/wwwroot/images/african-american-woman-wearing-orange-sweater-holding-dog.jpg",
+      "PackagePath": "staticwebassets/images/african-american-woman-wearing-orange-sweater-holding-dog.jpg"
+    },
+    {
       "Id": "/home/mya/Documents/EMGMSA/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },

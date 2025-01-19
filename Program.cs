@@ -1,6 +1,9 @@
 using EMGMSA.Seeder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +16,31 @@ options.UseSqlServer("Server=localhost; Database=EMGMSA; User ID=sa; Password=Ke
 
 //ajouter les services pour ASP.NET Core Identity
 
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
+    };
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -32,7 +57,24 @@ builder.Logging.AddDebug();
 //on a pas eu a faire cet enregistrements pr model et controller pck 
 //ASP.NET Core le prend en charge automatiquement grace a la convention MVC 
 builder.Services.AddScoped<CarSeeder>();
+builder.Services.AddScoped<RoleSeeder>();
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var roleSeeder = services.GetRequiredService<RoleSeeder>();
+        await roleSeeder.SeedRolesAsync();
+        Console.WriteLine("Roles and users seeded successfully.");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the roles and users.");
+    }
+}
 
 
 //MiddleWare pour gerer lauthentification et lautorisation

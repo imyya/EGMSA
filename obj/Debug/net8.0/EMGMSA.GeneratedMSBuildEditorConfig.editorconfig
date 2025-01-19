@@ -26,6 +26,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/mya/Documents/EMGMSA
 build_property._RazorSourceGeneratorDebug = 
 
+[/home/mya/Documents/EMGMSA/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mya/Documents/EMGMSA/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/mya/Documents/EMGMSA/Views/Cars/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2Fycy9DcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
