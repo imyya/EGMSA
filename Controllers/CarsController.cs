@@ -4,25 +4,35 @@ using Microsoft.EntityFrameworkCore;  // For EF Core extension methods like ToLi
 using System.Linq;  // Fo
 using EMGMSA.Seeder;
 using EMGMSA.Models;
+using Microsoft.AspNetCore.Authorization;
+
 public class CarsController : Controller
 {
     private readonly ApplicationDbContext _context;
     private readonly CarSeeder _carSeeder;
 
-    public CarsController(ApplicationDbContext context, CarSeeder carSeeder)
+    public CarsController(ApplicationDbContext context, CarSeeder? carSeeder)
     {
         _context = context;
+         if (carSeeder != null)
+    {
         carSeeder.SeedCars();
+    }
     }
 
     public async Task<IActionResult> Index()
     {
         var cars = await _context.Cars.ToListAsync();
+
+        //Console.WriteLine($"Cars/Index - IsAuthenticated: {User.Identity?.IsAuthenticated}");
+        //Console.WriteLine($"Cars/Index - UserName: {User.Identity?.Name}");
         return View(cars);
     }
 
     // Ajouter une voiture
     // [HttpGet]
+    [Authorize(Roles = "admin")]
+
     public IActionResult Create()
     {
         return View();
@@ -66,6 +76,8 @@ public class CarsController : Controller
     }
 
     // Modifier une voiture
+    [Authorize(Roles = "admin")]
+
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -142,6 +154,8 @@ public class CarsController : Controller
     }
 
     // Supprimer une voiture
+    [Authorize(Roles = "admin")]
+
     public async Task<IActionResult> Delete(int? id)
     {
         Console.WriteLine("Delete the in the first delete: " + id);

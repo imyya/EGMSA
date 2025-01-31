@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,27 +10,35 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <style>
-    .login-link {
-        font-weight: bold;       /* Met le texte en gras */
-        margin-left: 25px;       /* Décale légèrement vers la droite */
-        color: #007bff !important; /* Couleur bleue pour correspondre au style Bootstrap */
-        text-transform: uppercase; /* Met le texte en majuscules pour plus d'impact */
-    }
+        .login-link {
+            font-weight: bold;
+            /* Met le texte en gras */
+            margin-left: 25px;
+            /* Décale légèrement vers la droite */
+            color: #007bff !important;
+            /* Couleur bleue pour correspondre au style Bootstrap */
+            text-transform: uppercase;
+            /* Met le texte en majuscules pour plus d'impact */
+        }
 
-    .login-link:hover {
-        color: #0056b3 !important; /* Change légèrement la couleur au survol */
-        text-decoration: underline; /* Souligne le texte au survol */
-    }
-</style>
+        .login-link:hover {
+            color: #0056b3 !important;
+            /* Change légèrement la couleur au survol */
+            text-decoration: underline;
+            /* Souligne le texte au survol */
+        }
+    </style>
 
 </head>
+
 <body>
     <div class="container">
         <header>
             <!-- Tu peux ajouter un header ici -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">EMGMSA</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -37,18 +46,45 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Create", "Cars")">Ajouter une voiture</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link login-link" href="@Url.Action("Login","Account")">Connexion</a>
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {   
+                            @if (User.IsInRole("admin")){
 
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link login-link" href="@Url.Action("Register","Account")">S'inscrire</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Create", "Cars")">Ajouter une voiture</a>
+                            </li>
+                            }
 
-                        </li>
+                            <form action="/Account/Logout" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-link nav-link login-link"
+                                    style="display:inline;">Déconnexion</button>
+                            </form>
+                        }
+
+                        else
+                        {  
+                            @if(!(ViewContext.RouteData.Values["controller"].ToString() == "Account" && 
+                            (ViewContext.RouteData.Values["action"].ToString() == "Login" 
+                            ))){
+
+                            <li class="nav-item">
+                                <a class="nav-link login-link" href="@Url.Action("Login","Account")">Connexion</a>
+
+                            </li>
+                            }
+
+                            @if(!(ViewContext.RouteData.Values["controller"].ToString() == "Account" &&
+                            (ViewContext.RouteData.Values["action"].ToString() == "Register" 
+                            ))){
+
+                            <li class="nav-item">
+                                <a class="nav-link login-link" href="@Url.Action("Register","Account")">S'inscrire</a>
+
+                            </li>
+                            }
+                        }
                     </ul>
+
                 </div>
             </nav>
         </header>
@@ -64,5 +100,5 @@
     @RenderSection("Scripts", required: false)
 
 </body>
-</html>
 
+</html>

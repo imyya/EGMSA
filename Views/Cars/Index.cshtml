@@ -39,9 +39,12 @@
 
 
                 <td>
+                    @if (User.IsInRole("admin")){
                     <a href="@Url.Action("Edit", "Cars", new { id = car.Id })" class="btn btn-warning btn-sm">Modifier</a>
                     <a href="javascript:void(0);" class="btn btn-danger btn-sm"
                         onclick="showDeleteModal(@car.Id)">Supprimer</a>
+                    }
+
                 </td>
             </tr>
         }
@@ -49,8 +52,10 @@
 </table>
 
 <!--Modal-->
-
+@if (User.IsInRole("admin")){
 <a href="@Url.Action("Create", "Cars")" class="btn btn-primary">Ajouter une voiture</a>
+
+}
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
     aria-hidden="true">
