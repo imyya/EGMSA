@@ -1,38 +1,48 @@
-name: .NET CI/CD Render
+name: .NET CI/CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
-
-env:
-  DOTNET_VERSION: '8.0.x'
+    branches: [ "master" ]
 
 jobs:
   build-and-test:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Restore dependencies
-        run: dotnet restore
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
+    - name: Restore dependencies
+      run: dotnet restore
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal --configuration Release
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
 
-      - name: Publish
-        run: dotnet publish -c Release -o myapp
+    - name: Run Tests
+      run: dotnet test --no-restore --verbosity normal
 
-      - name: Deploy to Render
-        run: |
-          curl -X POST "https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
+  deploy:
+    name: Deploy to Railway
+    needs: build-and-test  # S'assure que le déploiement n'a lieu que si build et tests réussissent
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' # Déploie uniquement depuis la branche master
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Railway CLI
+      run: npm i -g @railway/cli
+
+    - name: Deploy to Railway
+      run: railway up
+      env:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

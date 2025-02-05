@@ -9,11 +9,16 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-//configuration du context de la base de donnees SQL SERVER
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+Environment.GetEnvironmentVariable("DATABASE_URL");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer("Server=localhost; Database=EMGMSA; User ID=sa; Password=Kerim7777!; MultipleActiveResultSets=true; TrustServerCertificate=True;"));
+options.UseNpgsql(connectionString));
+;
+//configuration du context de la base de donnees SQL SERVER
+
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+// options.UseSqlServer("Server=localhost; Database=EMGMSA; User ID=sa; Password=Kerim7777!; MultipleActiveResultSets=true; TrustServerCertificate=True;"));
 
 //ajouter les services pour ASP.NET Core Identity
 
