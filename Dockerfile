@@ -18,4 +18,4 @@ ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
 # Commande de démarrage
-CMD ["dotnet", "EMGSA.dll"]
+CMD ["dotnet", "EMGMSA.dll"]
