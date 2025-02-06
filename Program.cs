@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString =Environment.GetEnvironmentVariable("DATABASE_URL")?? builder.Configuration.GetConnectionString("DefaultConnection") :
+var connectionString =Environment.GetEnvironmentVariable("DATABASE_URL")?? builder.Configuration.GetConnectionString("DefaultConnection") ;
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
